@@ -1,6 +1,6 @@
 #!/bin/bash
 IMAGE_ORG=lilbunnyrabbit
-IMAGE_NAME=panda
+IMAGE_NAME=waifu-site
 IMAGE_VERSION=$1
 
 IMAGE="$IMAGE_NAME:$IMAGE_VERSION"
