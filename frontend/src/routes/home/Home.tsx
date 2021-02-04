@@ -32,7 +32,7 @@ export function Home() {
   return (
     <div className={classes.root}>
       <Grid container spacing={6} className={classes.grid}>
-        {getRoutes().map((routeConfigs) => (
+        {getRoutes().filter((routeConfig) => routeConfig.path != "/").map((routeConfigs) => (
           <Grid item xs={6}>
             <Link to={routeConfigs.path} style={{ textDecoration: "none" }}>
               <Paper style={{ width: "100%", height: "100%" }}>

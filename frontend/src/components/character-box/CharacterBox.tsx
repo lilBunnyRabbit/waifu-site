@@ -11,16 +11,23 @@ export function CharacterBox({ character, onClick, noContent, ...props }: any) {
   return (
     <Card raised className={classes.root} onClick={onClick} {...props}>
       <CardActionArea>
-        <CardMedia
-          component="img"
-          alt=" No Image"
-          height="300"
-          image={character.src}
-          title={character.name}
-        />
+        {character.src && (
+          <CardMedia
+            component="img"
+            alt=" No Image"
+            height="300"
+            image={character.src}
+            title={character.name}
+          />
+        )}
+
         {!noContent && (
           <CardContent className={classes.content}>
-            <Typography variant="h5" component="h2" children={character.name + "   " + character._id} />
+            <Typography
+              variant="h5"
+              component="h2"
+              children={character.name + "   " + (character._id || "")}
+            />
 
             <Typography
               className={classes.pos}

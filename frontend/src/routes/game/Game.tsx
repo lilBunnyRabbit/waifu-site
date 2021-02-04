@@ -42,23 +42,42 @@ export function Game() {
   );
 
   React.useEffect(() => {
-    if (data) setChunks(toChunks(data || []));
+    if (data) {
+      if(data.length == 1) {
+        setWinner(data[0]);
+        console.log("One char -> winner");
+        
+      } else {
+        setChunks(toChunks(data || []));
+        console.log("Start chunks", chunks);
+      }
+    }
   }, [isLoading]);
 
   if (error) return <ErrorCard error={error} />;
   if (isLoading) return <Loading />;
-  if (!chunks) return <ErrorCard />;
+  if (!chunks) return <ErrorCard error={{ message: "No chunks" }} />;
 
-  if (index >= chunks.length || chunks[index].length < 2) {
-    if(chunks[index]?.length < 2) {
-      setNewData([...newData, chunks[0]]);
-    }
+  if (!winner && (index >= chunks.length || chunks[index]?.length < 2)) {
     setIndex(0);
-    setChunks(toChunks(newData || []));
+    if(chunks[index]?.length < 2) setChunks(toChunks([...newData, chunks[index][0]]));
+    else setChunks(toChunks(newData || []));
     setNewData([]);
 
     console.log("New chunks", chunks);
   }
+
+  const handleSelect = (selected: any, notSelected: any) => {
+    if (chunks?.length == 1) {
+      setWinner(selected);
+    } else {
+      setIndex(index + 1);
+      setNewData([...newData, selected]);
+    }
+  };
+
+  if (!chunks || !chunks[index] || chunks[index].length < 2)
+    return <ErrorCard />;
 
   return (
     <div className={classes.root}>
@@ -66,21 +85,15 @@ export function Game() {
         className={classes.title}
         variant="h5"
         component="h2"
-        children={winner ? winner?.name : `${index} / ${chunks.length % 2 == 0 || chunks.length == 1 ? chunks.length : chunks.length - 1 }`}
+        children={
+          winner
+            ? winner?.name
+            : `${index} / ${chunks.length}`
+        }
       />
       {winner && <CharacterBox character={winner} />}
       {!winner && (
-        <SelectFromPair
-          pair={chunks[index]}
-          onSelect={(selected: any) => {
-            if (chunks.length == 1) {
-              setWinner(selected);
-            } else {
-              setIndex(index + 1);
-              setNewData([...newData, selected]);
-            }
-          }}
-        />
+        <SelectFromPair pair={chunks[index]} onSelect={handleSelect} />
       )}
     </div>
   );
@@ -91,11 +104,11 @@ function SelectFromPair({ pair, onSelect }: any) {
   return (
     <div className={classes.pairRow}>
       <div>
-        <CharacterBox character={pair[0]} onClick={() => onSelect(pair[0])} />
+        <CharacterBox character={pair[0]} onClick={() => onSelect(pair[0], pair[1])} />
       </div>
       <div className={classes.split} />
       <div>
-        <CharacterBox character={pair[1]} onClick={() => onSelect(pair[1])} />
+        <CharacterBox character={pair[1]} onClick={() => onSelect(pair[1], pair[0])} />
       </div>
     </div>
   );

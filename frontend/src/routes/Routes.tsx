@@ -10,6 +10,7 @@ import { Home } from "./home/Home";
 import { Game } from "./game/Game";
 import { CreateCharacter } from "./create/CreateCharacter";
 import { CharacterList } from "./character-list/CharacterList";
+import { Admin } from "./admin/Admin";
 
 export type RouteConfig = {
   name: string;
@@ -42,6 +43,12 @@ export const routesConfigs: RouteConfig[] = [
     name: "List",
     path: "/list",
     element: CharacterList,
+    icon: HomeIcon,
+  },
+  {
+    name: "Admin",
+    path: "/admin",
+    element: Admin,
     icon: HomeIcon,
   }
 ];

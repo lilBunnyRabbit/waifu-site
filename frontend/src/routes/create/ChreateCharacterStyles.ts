@@ -8,9 +8,9 @@ export const useCreateCharacterStyles = makeStyles((theme: Theme) => {
       height: "fit-content",
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-evenly",
+      justifyContent: "space-around",
       marginTop: 50,
-      alignItems: "center",
+      alignItems: "flex-end",
       position: "relative"
     },
     inputs: {
